@@ -10,5 +10,12 @@ namespace OnlineExam.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> Roles { get; set; }
+
+        public DbSet<StudentRegistration> StudentRegistrations { get; set; }
+        public DbSet<StudentParent> StudentParents { get; set; }
+        public DbSet<StudentHomeCountryDetails> StudentHomeCountryDetails { get; set; }
+        public DbSet<StudentPreviousEntrance> StudentPreviousEntrances { get; set; }
+        public DbSet<StudentAcademicPerformance> StudentAcademicPerformances { get; set; }
+
     }
 }

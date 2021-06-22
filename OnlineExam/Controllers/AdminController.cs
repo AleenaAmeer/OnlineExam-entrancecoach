@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace OnlineExam.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    /*[Authorize(Roles = "Admin")]*/
     public class AdminController : Controller
     {
         private DB db = new DB();

@@ -147,5 +147,153 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
+
+
+        //StudentRegistration
+
+        public ActionResult StudentRegistration()
+        {
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> StudentRegistration(StudentRegistrationViewModel model)
+        {
+            //BASIC REGISTRATION//
+
+            var StudentRegistration = new StudentRegistration
+            {
+                
+
+                GroupId = model.GroupId,
+                BatchId = model.BatchId,
+                ExamAttendingYear = model.ExamAttendingYear,
+                PreferredDay = model.PreferredDay,
+                ApplnDate = model.ApplnDate,
+                AcademicYear = model.AcademicYear,
+                AdmissionTestDate = model.AdmissionTestDate,
+                PreferredTime = model.PreferredTime,
+                WhatsappNo = model.WhatsappNo,
+                DOB = model.DOB,
+                Gender = model.Gender,
+                Religion = model.Religion,
+                Caste = model.Caste,
+                Community = model.Community,
+                BloodGroup = model.BloodGroup,
+                Nationalty = model.Nationalty,
+                PresentAddress = model.PresentAddress,
+                Area = model.Area,
+                Location = model.Location,
+                State = model.State,
+                District = model.District,
+                Pincode = model.Pincode,
+                QuickContNo = model.QuickContNo,
+                Photo = model.Photo,
+                QuickWhatsApp = model.QuickWhatsApp,
+                PgmId = model.PgmId,
+                ClassId = model.ClassId,
+                CourseId = model.CourseId,
+                SubPgmId = model.SubPgmId,
+                //---------------- -----------------//
+
+            };
+            //PARENT REGISTRATION//
+
+            var StudentParent = new StudentParent()
+            {
+                FrName = model.FrName,
+                FrOcc = model.FrOcc,
+                FrMobNo = model.FrMobNo,
+                FrMailId = model.FrMailId,
+                FrDistrict = model.FrDistrict,
+                FrSign = model.FrSign,
+                FrState = model.FrState,
+                FrWhatsApp = model.FrWhatsApp,
+
+                MrName = model.MrName,
+                MrOcc = model.MrOcc,
+                MrMobNo = model.MrMobNo,
+                MrMailId = model.MrMailId,
+                MrDistrict = model.MrDistrict,
+                MrSign = model.MrSign,
+                MrState = model.MrState,
+                MrWhatsApp = model.MrWhatsApp,
+            };
+
+
+            //---------------------//
+
+            //HOME DETAILS//
+
+            var StudentHomeCountryDetails = new StudentHomeCountryDetails()
+            {
+                Address1=model.Address1,
+                Address2=model.Address2,
+                AreaHome = model.AreaHome,
+                PincodeHome = model.PincodeHome,
+                QuickContact=model.QuickContact,
+                LocationHome = model.LocationHome,
+                StateHome = model.StateHome,
+                EmaiId = model.EmaiId,
+                QuickHomeWhatsapp = model.QuickHomeWhatsapp,
+                
+            };
+
+            //---------------------//
+
+
+            //ACADEMIC//
+            var StudentAcademicPerformance = new StudentAcademicPerformance()
+            {
+
+                Class=model.Class,
+                PassYear=model.PassYear,
+                SchoolAddress=model.SchoolAddress,
+                RegNo=model.RegNo,
+                Board=model.Board,
+                PhyMark=model.PhyMark,
+                ChemMark=model.ChemMark,
+                BiologyMark=model.BiologyMark,
+                MathsMark=model.MathsMark,
+                PercOfMark=model.PercOfMark,
+
+            };
+
+
+
+            //---------------------//
+
+            //PREV ENTRANCE//
+            var StudentPreviousEntrance = new StudentPreviousEntrance()
+            {
+                PrevEntranceExamName = model.PrevEntranceExamName,
+                RollNo = model.RollNo,
+                AttemptedYear = model.AttemptedYear,
+                Mark = model.Mark,
+                Rank = model.Rank,
+                NoOfAttempts = model.NoOfAttempts,
+
+
+            };
+
+
+            //---------------------//
+            if (ModelState.IsValid)
+            {
+                db.StudentRegistrations.Add(StudentRegistration);
+                db.StudentParents.Add(StudentParent);
+                db.StudentHomeCountryDetails.Add(StudentHomeCountryDetails);
+                db.StudentPreviousEntrances.Add(StudentPreviousEntrance);
+                db.StudentAcademicPerformances.Add(StudentAcademicPerformance);
+             
+                await db.SaveChangesAsync();
+                ViewBag.StatusMessage = "Registration Succesfully Completed";
+             //   return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
     }
 }
