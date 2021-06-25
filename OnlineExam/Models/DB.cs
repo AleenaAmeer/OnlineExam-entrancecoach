@@ -17,5 +17,17 @@ namespace OnlineExam.Models
         public DbSet<StudentPreviousEntrance> StudentPreviousEntrances { get; set; }
         public DbSet<StudentAcademicPerformance> StudentAcademicPerformances { get; set; }
 
+        public DbSet<Programmes> Programme { get; set; }
+
+        public DbSet<SubProgram> SubPrograms { get; set; }
+
+        public DbSet<Class> Classes { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Chapter> Chapters { get; set; }
+
     }
 }

@@ -2,6 +2,7 @@
 using OnlineExam.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -148,26 +149,113 @@ namespace OnlineExam.Controllers
             return View();
         }
 
-
+      //  ALEENA 23-06-2021
         //StudentRegistration
 
         public ActionResult StudentRegistration()
         {
+
+           // item.Role = db.Roles.Where(r => r.RoleId == item.RoleId).FirstOrDefault();
+            ViewBag.ClassID = new SelectList(db.Classes, "Id", "Name");
+            ViewBag.ProgramID = new SelectList(db.Programme, "Id", "Name");
+            ViewBag.SubProgramID = new SelectList(db.SubPrograms, "Id", "Name");
+
+            ViewBag.CourseID = new SelectList(db.Courses, "Id", "Name");
+            // new SelectList(db.Users.Where(x=> x.Roles.Where(p=>roles.Contains(p.RoleId))).Select(user=> new SelectListItem{Text=user.UserName,Value=user.UserID.ToString()}));
+            //ViewBag.CourseID = new SelectList(db.Courses.Where(r => r.ClassId == ), "Id", "Name");
+
             return View();
         }
+
+
+        public ActionResult GetCourseWiseClass(int id)
+        {
+          //  ViewBag.CourseID = new SelectList(db.Courses.Where(r => r.ClassId == id), "Id", "Name");
+
+            // return View();
+            //  return RedirectToAction("StudentRegistration", "Home");
+           // return Json(ViewBag.CourseID, JsonRequestBehavior.AllowGet);
+
+
+           
+            //var result = new SelectList(ViewBag.CourseID, "Value", "Text");
+            //return Json(result, JsonRequestBehavior.AllowGet);
+
+      
+
+            var result = new SelectList(db.Courses.Where(r => r.ClassId == id), "Id", "Name");
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+
+
+        }
+        public ActionResult GetSubPgmWisePgm(int id)
+        {
+            var result = new SelectList(db.SubPrograms.Where(r => r.PgmId == id), "Id", "Name");
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> StudentRegistration(StudentRegistrationViewModel model)
+        public ActionResult StudentRegistration(StudentRegistrationViewModel model, HttpPostedFileBase file, HttpPostedFileBase filefr, HttpPostedFileBase filemr)
         {
+
+            ////IMAGE OF STUDENT
+            var allowedExtensions = new[] {
+            ".Jpg", ".png", ".jpg", "jpeg"
+        };
+
+            var pathphoto = "";
+            var pathfrsign = "";
+            var pathmrsign = "";
+
+
+
+            var fileName = Path.GetFileName(file.FileName);
+            var filefrsign = Path.GetFileName(filefr.FileName);
+            var filemrsign = Path.GetFileName(filemr.FileName);
+
+
+            var ext = Path.GetExtension(file.FileName);
+            var extfr = Path.GetExtension(filefr.FileName);
+            var extmr = Path.GetExtension(filemr.FileName);
+
+            if (allowedExtensions.Contains(ext))   
+            {
+                string name = Path.GetFileNameWithoutExtension(fileName); 
+                string myfile = name + "_"  + ext;
+
+                pathphoto = Path.Combine(Server.MapPath("~/StudentImage"), myfile);
+            }
+            ////
+            if (allowedExtensions.Contains(extfr))
+            {
+                string name = Path.GetFileNameWithoutExtension(filefrsign);
+                string myfile = name + "_" + extfr;
+
+                pathfrsign = Path.Combine(Server.MapPath("~/StudentImage"), myfile);
+            }
+            if (allowedExtensions.Contains(extmr))
+            {
+                string name = Path.GetFileNameWithoutExtension(filemrsign);
+                string myfile = name + "_" + extmr;
+
+                pathmrsign = Path.Combine(Server.MapPath("~/StudentImage"), myfile);
+            }
+
+
+
+
             //BASIC REGISTRATION//
 
             var StudentRegistration = new StudentRegistration
             {
-                
 
-                GroupId = model.GroupId,
-                BatchId = model.BatchId,
+                UserId =  3,  // model.UserId,
+                GroupId = 0,
+                BatchId =0,
                 ExamAttendingYear = model.ExamAttendingYear,
                 PreferredDay = model.PreferredDay,
                 ApplnDate = model.ApplnDate,
@@ -189,7 +277,11 @@ namespace OnlineExam.Controllers
                 District = model.District,
                 Pincode = model.Pincode,
                 QuickContNo = model.QuickContNo,
-                Photo = model.Photo,
+
+              
+                 Photo = pathphoto.ToString(),
+
+
                 QuickWhatsApp = model.QuickWhatsApp,
                 PgmId = model.PgmId,
                 ClassId = model.ClassId,
@@ -202,12 +294,17 @@ namespace OnlineExam.Controllers
 
             var StudentParent = new StudentParent()
             {
+                UserId = 3,
                 FrName = model.FrName,
                 FrOcc = model.FrOcc,
                 FrMobNo = model.FrMobNo,
                 FrMailId = model.FrMailId,
                 FrDistrict = model.FrDistrict,
-                FrSign = model.FrSign,
+
+
+                FrSign = pathfrsign.ToString(),
+
+
                 FrState = model.FrState,
                 FrWhatsApp = model.FrWhatsApp,
 
@@ -216,7 +313,11 @@ namespace OnlineExam.Controllers
                 MrMobNo = model.MrMobNo,
                 MrMailId = model.MrMailId,
                 MrDistrict = model.MrDistrict,
-                MrSign = model.MrSign,
+
+
+                MrSign = pathmrsign.ToString(),
+
+
                 MrState = model.MrState,
                 MrWhatsApp = model.MrWhatsApp,
             };
@@ -228,7 +329,8 @@ namespace OnlineExam.Controllers
 
             var StudentHomeCountryDetails = new StudentHomeCountryDetails()
             {
-                Address1=model.Address1,
+                UserId = 3,
+                Address1 =model.Address1,
                 Address2=model.Address2,
                 AreaHome = model.AreaHome,
                 PincodeHome = model.PincodeHome,
@@ -246,8 +348,8 @@ namespace OnlineExam.Controllers
             //ACADEMIC//
             var StudentAcademicPerformance = new StudentAcademicPerformance()
             {
-
-                Class=model.Class,
+                UserId = 3,
+                Class =model.Class,
                 PassYear=model.PassYear,
                 SchoolAddress=model.SchoolAddress,
                 RegNo=model.RegNo,
@@ -267,6 +369,7 @@ namespace OnlineExam.Controllers
             //PREV ENTRANCE//
             var StudentPreviousEntrance = new StudentPreviousEntrance()
             {
+                UserId = 3,
                 PrevEntranceExamName = model.PrevEntranceExamName,
                 RollNo = model.RollNo,
                 AttemptedYear = model.AttemptedYear,
@@ -278,6 +381,10 @@ namespace OnlineExam.Controllers
             };
 
 
+
+
+
+
             //---------------------//
             if (ModelState.IsValid)
             {
@@ -287,12 +394,15 @@ namespace OnlineExam.Controllers
                 db.StudentPreviousEntrances.Add(StudentPreviousEntrance);
                 db.StudentAcademicPerformances.Add(StudentAcademicPerformance);
              
-                await db.SaveChangesAsync();
+                 db.SaveChangesAsync();
+                file.SaveAs(pathphoto);
+                filefr.SaveAs(pathfrsign);
+                filefr.SaveAs(pathmrsign);
                 ViewBag.StatusMessage = "Registration Succesfully Completed";
              //   return RedirectToAction("Login");
             }
 
-            return View(model);
+            return RedirectToAction("Login");
         }
 
     }

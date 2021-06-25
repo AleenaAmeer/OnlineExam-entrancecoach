@@ -134,6 +134,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Chapter.cs" />
+    <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Prpgrammes.cs" />
+    <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\SubProgram.cs" />
+    <Compile Include="ViewModel\ChapterViewModel.cs" />
     <Compile Include="Models\DB.cs" />
     <Compile Include="Models\StudentAcademicPerformance.cs" />
     <Compile Include="Models\StudentHomeCountryDetails.cs" />
@@ -144,10 +151,15 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="ViewModel\ClassViewModel.cs" />
+    <Compile Include="ViewModel\CourseViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\ProgrammesViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="ViewModel\RoleViewModel.cs" />
     <Compile Include="ViewModel\StudentRegistrationViewModel.cs" />
+    <Compile Include="ViewModel\SubjectViewModel.cs" />
+    <Compile Include="ViewModel\SubProgramViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -199,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="StudentImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

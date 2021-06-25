@@ -55,8 +55,8 @@ namespace OnlineExam.Models
         public int SubPgmId { get; set; }
 
 
-      
-        /*[ForeignKey("Id")]
-        public User  Users{ get; set; }      */                           
+
+        //[ForeignKey("Id")]
+        //public User Users { get; set; }
     }
 }
